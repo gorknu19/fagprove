@@ -22,7 +22,7 @@ function Forum() {
     isFetchingNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ["posts"],
+    queryKey: ["verktoy"],
     queryFn: ({ pageParam = 0 }) =>
       getPosts({
         skip: pageParam,
@@ -60,12 +60,11 @@ function Forum() {
             {data &&
               data.pages.map((page) => {
                 return page.posts.map((verktoy: any) => {
-                  console.log(verktoy.Image.imageId);
                   return (
                     <div key={verktoy.id}>
                       <h1>{verktoy.name}</h1>
                       <Image
-                        src={`/api/image/${verktoy.Image.imageId}`}
+                        src={`/api/image/${verktoy.imageId}`}
                         height={500}
                         width={500}
                         alt="post image"

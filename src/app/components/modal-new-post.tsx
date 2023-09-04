@@ -8,6 +8,7 @@ import {
   verktoyPostSchema,
   verktoyPostSchemaType,
 } from "../api/verktoy/schema";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface newPostModalProps {
   clickModal: () => void;
@@ -17,6 +18,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
   // const [fileId, setFileId] = useState<string | undefined>();
   const [file, setFile] = useState<File | null>(null);
   const { data: session } = useSession();
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -34,7 +36,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
   const onSubmit2 = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    let url = "/api/image";
+    let url = "/api/upload";
 
     var formData = new FormData();
     if (!file) return console.log("no file uploaded!");
@@ -63,6 +65,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
     };
     let post = await axios.post("/api/verktoy", data);
     clickModal();
+    queryClient.invalidateQueries({ queryKey: ["verktoy"] });
   });
 
   return (

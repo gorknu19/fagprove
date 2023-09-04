@@ -68,11 +68,7 @@ export async function GET(req: NextRequest) {
           id: true,
         },
       },
-      Image: {
-        select: {
-          imageId: true,
-        },
-      },
+      Image: {},
     },
   });
   let nextCursor: number | undefined = skip + pageSize;
