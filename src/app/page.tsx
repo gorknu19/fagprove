@@ -7,11 +7,15 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import Image from "next/image";
 import { getPosts } from "./services/verktoy.post.service";
+import ToolCard from "./components/verktoy.card";
+import { Post } from "@prisma/client";
+import ToolModal from "./components/verktoy.modal";
 
 function Forum() {
   const { ref, inView } = useInView();
   const { data: session, status: sessionStatus } = useSession();
   const [createPostModal, setCreatePostModal] = useState<boolean>(false);
+  const [selectedTool, setSelectedTool] = useState<Post | null>(null);
 
   const {
     data,
@@ -37,40 +41,25 @@ function Forum() {
 
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <div className="w-2/3 text-center">
+      <div className="flex justify-center align-middle">
+        <div className="text-center">
           <h1 className={`text-center font-bold text-lg m-5 `}>
             Welcome to the forum {session?.user?.name}
           </h1>
-
-          <button
-            onClick={clickModal}
-            className={` text-gray-300 bg-gray-700 hover:bg-gray-800 hover:text-white rounded-md px-3 py-2 text-sm font-medium`}
-          >
-            Create post
-          </button>
-          <div className="bg-slate-800 mt-5">
-            <h1 className="font-bold"> Posts </h1>
+          {session?.user?.id && (
+            <button
+              onClick={clickModal}
+              className={` text-gray-300 bg-gray-700 hover:bg-gray-800 hover:text-white rounded-md px-3 py-2 text-sm font-medium`}
+            >
+              Create post
+            </button>
+          )}
+          <h1 className="font-bold"> Posts </h1>
+          <div className="flex flex-wrap p-5">
             {data &&
               data.pages.map((page) => {
-                return page.posts.map((verktoy: any) => {
-                  return (
-                    <div key={verktoy.id}>
-                      <h1>{verktoy.name}</h1>
-                      <Image
-                        src={`/api/image/${verktoy.imageId}`}
-                        height={500}
-                        width={500}
-                        alt="post image"
-                      />
-                    </div>
-                  );
+                return page.posts.map((verktoy) => {
+                  return <ToolCard verktoy={verktoy} key={verktoy.id} />;
                 });
               })}
           </div>
