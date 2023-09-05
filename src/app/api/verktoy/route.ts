@@ -20,7 +20,13 @@ export type verktoyGET = {
 export const POST = async (req: NextRequest) => {
   let jsonBody = await req.json();
   let validator = verktoyPostSchema.safeParse(jsonBody);
+
   const session = await getServerSession(authOptions);
+  const whitelisted = session?.user?.whitelisted;
+
+  if (whitelisted === !true) {
+    return NextResponse.json({ error: "not authorized" }, { status: 401 });
+  }
 
   if (!validator.success)
     return NextResponse.json({ error: validator.error }, { status: 400 });
@@ -89,16 +95,15 @@ export async function DELETE(req: NextRequest) {
   const params = url.searchParams;
   let postId = params.get("postId");
 
-  const secret = process.env.SECRET;
-  const token = await getToken({ req, secret });
-  const whitelisted = token?.whitelisted;
-
-  if (!postId)
-    return NextResponse.json({ error: "no postId" }, { status: 400 });
+  const session = await getServerSession(authOptions);
+  const whitelisted = session?.user?.whitelisted;
 
   if (whitelisted === !true) {
     return NextResponse.json({ error: "not authorized" }, { status: 401 });
   }
+
+  if (!postId)
+    return NextResponse.json({ error: "no postId" }, { status: 400 });
 
   const comment = await prisma.comment.deleteMany({
     where: {
@@ -118,7 +123,11 @@ export const PATCH = async (req: NextRequest) => {
   let jsonBody = await req.json();
   let validator = verktoyEditSchema.safeParse(jsonBody);
   const session = await getServerSession(authOptions);
+  const whitelisted = session?.user?.whitelisted;
 
+  if (whitelisted === !true) {
+    return NextResponse.json({ error: "not authorized" }, { status: 401 });
+  }
   if (!validator.success)
     return NextResponse.json({ error: validator.error }, { status: 400 });
   if (!session?.user?.id)

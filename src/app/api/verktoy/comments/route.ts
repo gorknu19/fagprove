@@ -3,6 +3,8 @@ import { verktoyCommentSchema } from "./schema";
 import { prisma } from "@/app/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { Comment, User } from "@prisma/client";
+import { getServerSession } from "next-auth";
+import authOptions from "../../auth/[...nextauth]/auth-options";
 
 export type commentGET = {
   comment: Comment & {
@@ -17,13 +19,17 @@ export async function POST(req: NextRequest) {
   const data = verktoyCommentSchema.parse(await req.json());
 
   const secret = process.env.SECRET;
-  const token = await getToken({ req, secret });
-  let userId = token?.id as string;
+  const session = await getServerSession(authOptions);
 
+  if (!session?.user?.id)
+    return NextResponse.json({ error: "not authenticated" }, { status: 401 });
+
+  console.log(session);
+  console.log(session?.user?.id);
   const comment = await prisma.comment.create({
     data: {
       content: data.content,
-      userId: userId,
+      userId: session?.user?.id,
       postId: data.postId,
     },
   });
@@ -61,16 +67,14 @@ export async function DELETE(req: NextRequest) {
   const params = url.searchParams;
   let commentId = params.get("commentId");
 
-  const secret = process.env.SECRET;
-  const token = await getToken({ req, secret });
-  const whitelisted = token?.whitelisted;
-
-  if (!commentId)
-    return NextResponse.json({ error: "no commentId" }, { status: 400 });
+  const session = await getServerSession(authOptions);
+  const whitelisted = session?.user?.whitelisted;
 
   if (whitelisted === !true) {
     return NextResponse.json({ error: "not authorized" }, { status: 401 });
   }
+  if (!commentId)
+    return NextResponse.json({ error: "no commentId" }, { status: 400 });
 
   const comment = await prisma.comment.deleteMany({
     where: {

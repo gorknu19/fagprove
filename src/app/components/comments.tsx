@@ -90,7 +90,7 @@ export const Comments = ({ postId }: CommentsProps) => {
               <div className="flex justify-between items-center mt-2">
                 <p className="text-sm">{formatedDate}</p>
 
-                {session?.user?.id && (
+                {session?.user?.whitelisted === true && (
                   <div className="mt-2">
                     <button
                       className="px-2 py-1 bg-red-500 text-white rounded-md"

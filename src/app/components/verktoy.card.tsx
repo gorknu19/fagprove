@@ -45,7 +45,7 @@ const ToolCard = ({ verktoy }: ToolcardProps) => {
           <h3 className="text-xl font-semibold">{verktoy.type}</h3>
           <p>Type: {verktoy.name} </p>
           <p>Dato Kjøpt: {formatedDate}</p>
-          {session?.user?.id && (
+          {session?.user?.whitelisted === true && (
             <div className="mt-2">
               <button
                 className="px-2 py-1 bg-red-600 text-white rounded-md m-2"

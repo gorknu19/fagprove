@@ -16,7 +16,7 @@ function Forum() {
   const { data: session, status: sessionStatus } = useSession();
   const [createPostModal, setCreatePostModal] = useState<boolean>(false);
   const [selectedTool, setSelectedTool] = useState<Post | null>(null);
-
+  console.log(session);
   const {
     status,
     data,
@@ -54,7 +54,7 @@ function Forum() {
           <h1 className={`text-center font-bold text-lg m-5 `}>
             Welcome to the forum {session?.user?.name}
           </h1>
-          {session?.user?.id && (
+          {session?.user?.whitelisted === true && (
             <button
               onClick={clickModal}
               className={` text-gray-300 bg-gray-700 hover:bg-gray-800 hover:text-white rounded-md px-3 py-2 text-sm font-medium`}

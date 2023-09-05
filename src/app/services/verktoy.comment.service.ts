@@ -23,6 +23,9 @@ interface GetCommentsParams {
 
 export const getComments = async ({ postId }: GetCommentsParams) => {
   console.log(postId);
+  console.log(postId);
+  console.log(postId);
+  console.log(postId);
   let res = await axios.get<commentGET>(`/api/verktoy/comments`, {
     params: {
       postId: postId,

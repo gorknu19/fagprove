@@ -6,8 +6,8 @@ function Login() {
   return (
     <div className="flex min-h-screen flex-col items-center">
       <div className="w-1/4 p-10">
-        <h1 className={`text-center font-bold text-lg m-5 `}>Admin login</h1>
-        <LoginForm />
+        {/* <h1 className={`text-center font-bold text-lg m-5 `}>Admin login</h1>
+        <LoginForm /> */}
         <div className="p-5">
           <h1 className={`text-center font-bold text-lg m-5 `}>Bruker login</h1>
 
