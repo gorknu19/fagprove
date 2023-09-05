@@ -18,13 +18,7 @@ export async function POST(req: NextRequest) {
 
   const secret = process.env.SECRET;
   const token = await getToken({ req, secret });
-  const userId = token?.id as string;
-
-  if (!userId)
-    return NextResponse.json(
-      { error: "not authenticated for making comments" },
-      { status: 401 },
-    );
+  let userId = token?.id as string;
 
   const comment = await prisma.comment.create({
     data: {

@@ -29,7 +29,7 @@ const ToolCard = ({ verktoy }: ToolcardProps) => {
   return (
     <>
       <div
-        className="bg-slate-500 text-white rounded-lg p-4 shadow-lg m-4 cursor-pointer"
+        className="bg-slate-500 text-white rounded-lg p-4 shadow-lg m-4 cursor-pointer "
         onClick={clickModal}
       >
         <div className="flex justify-center">

@@ -63,7 +63,7 @@ function Forum() {
             </button>
           )}
           <h1 className="font-bold"> Posts </h1>
-          <div className="flex flex-wrap p-5">
+          <div className="flex flex-wrap p-5 ">
             {data &&
               data.pages.map((page) => {
                 return page.posts.map((verktoy) => {

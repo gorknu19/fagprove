@@ -55,7 +55,7 @@ export const Comments = ({ postId }: CommentsProps) => {
   return (
     <>
       <div className="mt-4">
-        {session?.user?.id && (
+        {session?.user && (
           <form onSubmit={handleSubmit(onSubmit)}>
             <input
               type="text"
