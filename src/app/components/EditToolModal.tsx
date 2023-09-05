@@ -131,7 +131,6 @@ export const EditToolModal = ({ verktoy, clickModal }: EditToolModalProps) => {
                   placeholder={verktoy.datePurchased.toString()}
                   id="datePurchased"
                   className="rounded-md ring-1 ring-black shadow-md"
-                  required
                 />
                 {errors.datePurchased && (
                   <p className="text-red-500">{errors.datePurchased.message}</p>
