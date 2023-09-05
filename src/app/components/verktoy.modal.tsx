@@ -1,5 +1,6 @@
 import { Post } from "@prisma/client";
 import Image from "next/image";
+import { Comments } from "./comments";
 
 interface ToolModalProps {
   verktoy: Post;
@@ -54,6 +55,8 @@ const ToolModal: React.FC<ToolModalProps> = ({
                 <p>Storage Spot: {verktoy.storageSpace}</p>
                 <p>Extra Equipment: {verktoy.extraEquipment}</p>
                 {/* <p>Comments: {verktoy.comments}</p> */}
+
+                <Comments postId={verktoy.id} />
               </div>
             </div>
           </div>

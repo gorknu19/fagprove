@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { Post } from "@prisma/client";
 import ToolModal from "./verktoy.modal";
+import { Comments } from "./comments";
 
 interface ToolcardProps {
   verktoy: Post;
@@ -13,6 +14,10 @@ const ToolCard = ({ verktoy }: ToolcardProps) => {
   function clickModal() {
     setShowTool(!showTool);
   }
+  var formatedDate = verktoy.datePurchased
+    .toString()
+    .slice(0, 19)
+    .replace("T", " ");
 
   return (
     <>
@@ -32,7 +37,7 @@ const ToolCard = ({ verktoy }: ToolcardProps) => {
         <div className="mt-4">
           <h3 className="text-xl font-semibold">{verktoy.type}</h3>
           <p>Type: {verktoy.name} </p>
-          <p>Dato Kjøpt: {verktoy.datePurchased.toString()}</p>
+          <p>Dato Kjøpt: {formatedDate}</p>
         </div>
       </div>
       {showTool && <ToolModal verktoy={verktoy} clickModal={clickModal} />}
