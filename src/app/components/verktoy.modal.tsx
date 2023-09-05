@@ -1,6 +1,7 @@
 import { Post } from "@prisma/client";
 import Image from "next/image";
 import { Comments } from "./comments";
+import { useSession } from "next-auth/react";
 
 interface ToolModalProps {
   verktoy: Post;
@@ -11,6 +12,8 @@ const ToolModal: React.FC<ToolModalProps> = ({
   verktoy: verktoy,
   clickModal,
 }) => {
+  const { data: session, status: sessionStatus } = useSession();
+
   return (
     <>
       <div className="fixed w-full p-4 md:inset-0  max-h-full text-center m-auto box-border  overflow-y-auto">
@@ -55,8 +58,7 @@ const ToolModal: React.FC<ToolModalProps> = ({
                 <p>Storage Spot: {verktoy.storageSpace}</p>
                 <p>Extra Equipment: {verktoy.extraEquipment}</p>
                 {/* <p>Comments: {verktoy.comments}</p> */}
-
-                <Comments postId={verktoy.id} />
+                {session?.user && <Comments postId={verktoy.id} />}
               </div>
             </div>
           </div>

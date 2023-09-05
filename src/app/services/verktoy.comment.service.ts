@@ -20,9 +20,6 @@ export const createComment = async ({
 interface GetCommentsParams {
   postId: string;
 }
-interface deleteCommentsParams {
-  commentId: string;
-}
 
 export const getComments = async ({ postId }: GetCommentsParams) => {
   console.log(postId);
@@ -35,7 +32,7 @@ export const getComments = async ({ postId }: GetCommentsParams) => {
   return res.data;
 };
 
-export const deleteComment = async (commentId: deleteCommentsParams) => {
+export const deleteComment = async (commentId: string) => {
   console.log(commentId);
   let res = await axios.delete(`/api/verktoy/comments`, {
     params: {

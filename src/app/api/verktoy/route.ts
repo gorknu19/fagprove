@@ -1,6 +1,6 @@
 import { Post, User } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
-import { verktoyPostSchema } from "./schema";
+import { verktoyEditSchema, verktoyPostSchema } from "./schema";
 import { getServerSession } from "next-auth";
 import authOptions from "../auth/[...nextauth]/auth-options";
 import { prisma } from "@/app/lib/prisma";
@@ -113,3 +113,37 @@ export async function DELETE(req: NextRequest) {
 
   return NextResponse.json({ comment, post });
 }
+
+export const PATCH = async (req: NextRequest) => {
+  let jsonBody = await req.json();
+  let validator = verktoyEditSchema.safeParse(jsonBody);
+  const session = await getServerSession(authOptions);
+
+  if (!validator.success)
+    return NextResponse.json({ error: validator.error }, { status: 400 });
+  if (!session?.user?.id)
+    return NextResponse.json(
+      { error: "ikke logget inn eller ikke rettigheter" },
+      { status: 401 },
+    );
+
+  let { data } = validator;
+  console.log(data);
+  const res = await prisma.post.update({
+    where: {
+      id: data.postId,
+    },
+    data: {
+      type: data.type,
+      name: data.name,
+      extraEquipment: data.extraEquipment,
+      operation: data.operation,
+      storageSpace: data.storageSpace,
+      datePurchased: new Date(data.datePurchased),
+      imageId: data.fileId,
+      userId: session?.user?.id,
+    },
+  });
+
+  return NextResponse.json({ data: res }, { status: 200 });
+};

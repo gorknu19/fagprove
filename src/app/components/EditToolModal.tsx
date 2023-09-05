@@ -1,22 +1,24 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { UploadButton } from "./upload.button";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  verktoyPostSchema,
-  verktoyPostSchemaType,
+  verktoyEditSchema,
+  verktoyEditSchemaType,
 } from "../api/verktoy/schema";
 import { useQueryClient } from "@tanstack/react-query";
-import { createPost } from "../services/verktoy.post.service";
+import { Post } from "@prisma/client";
+import { editPost } from "../services/verktoy.post.service";
 
-interface newPostModalProps {
+interface EditToolModalProps {
+  verktoy: Post;
   clickModal: () => void;
 }
 
-export const NewPostModal = ({ clickModal }: newPostModalProps) => {
-  // const [fileId, setFileId] = useState<string | undefined>();
+export const EditToolModal = ({ verktoy, clickModal }: EditToolModalProps) => {
+  // const [editedTool, setEditedTool] = useState(verktoy);
   const [file, setFile] = useState<File | null>(null);
   const { data: session } = useSession();
   const queryClient = useQueryClient();
@@ -27,39 +29,44 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
     formState: { errors },
     control,
     setValue,
-  } = useForm<verktoyPostSchemaType>({
-    resolver: zodResolver(verktoyPostSchema),
+  } = useForm<verktoyEditSchemaType>({
+    defaultValues: {
+      ...verktoy,
+      fileId: verktoy.imageId || undefined,
+      datePurchased: verktoy.datePurchased.toString().slice(0, 10),
+      postId: verktoy.id,
+    },
+    resolver: zodResolver(verktoyEditSchema),
   });
 
   const onSubmit2 = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+
+    if (!file) return onSubmit(e);
+
     let url = "/api/upload";
-
     var formData = new FormData();
-    if (!file) return console.log("no file uploaded!");
-
     formData.append("file", file, file.name);
-
     let res = await axios.post(url, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-
     setValue("fileId", res.data.imageDataDB.id);
     onSubmit(e);
   };
 
   const onSubmit = handleSubmit(async (e) => {
     let data = e;
-    createPost(data);
+    editPost(data);
     clickModal();
     queryClient.invalidateQueries({ queryKey: ["verktoy"] });
   });
 
+  console.log(file);
   return (
     <>
-      <div className="fixed w-full p-4 md:inset-0 max-h-full text-center m-auto box-border  overflow-y-auto">
+      <div className="fixed w-full p-4 md:inset-0  max-h-full text-center m-auto box-border  overflow-y-auto">
         <div className="relative w-full max-w-md max-h-full m-auto">
           <div className="bg-slate-500 rounded-lg shadow dark:bg-gray-700  border border-black ">
             <div className="px-6 py-6 lg:px-8">
@@ -84,7 +91,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                 </svg>
                 <span className="sr-only">Close modal</span>
               </button>
-              <h1 className="p-2 font-bold "> Create Post!</h1>
+              <h1 className="p-2 font-bold "> Edit Post!</h1>
               <form
                 onSubmit={onSubmit2}
                 className="flex flex-col text-black space-y-2"
@@ -95,7 +102,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                 <input
                   type="text"
                   {...register("type")}
-                  placeholder="eks:  Borhammer"
+                  placeholder={verktoy.type}
                   id="type"
                   className="rounded-md ring-1 ring-black shadow-md"
                 />
@@ -108,7 +115,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                 <input
                   type="text"
                   id="name"
-                  placeholder="eks:  GBH 18V-26F"
+                  placeholder={verktoy.name}
                   {...register("name")}
                   className="rounded-md ring-1 ring-black shadow-md"
                 />
@@ -121,7 +128,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                 <input
                   type="date"
                   {...register("datePurchased")}
-                  placeholder="eks: 23.05.2021"
+                  placeholder={verktoy.datePurchased.toString()}
                   id="datePurchased"
                   className="rounded-md ring-1 ring-black shadow-md"
                 />
@@ -135,7 +142,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                   type="text"
                   {...register("operation")}
                   id="operation"
-                  placeholder="eks: Batteri 18V"
+                  placeholder={verktoy.operation}
                   className="rounded-md ring-1 ring-black shadow-md"
                 />
                 {errors.operation && (
@@ -147,7 +154,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                 <input
                   type="text"
                   {...register("storageSpace")}
-                  placeholder="eks: Hylle 2"
+                  placeholder={verktoy.storageSpace}
                   id="storageSpace"
                   className="rounded-md ring-1 ring-black shadow-md"
                 />
@@ -162,14 +169,18 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                   {...register("extraEquipment")}
                   id="extraEquipment"
                   className="rounded-md ring-1 ring-black shadow-md"
-                  placeholder="eks: Bor, batteri, Dybdeanlegg"
+                  placeholder={verktoy.extraEquipment}
                 />
                 {errors.extraEquipment && (
                   <p className="text-red-500">
                     {errors.extraEquipment.message}
                   </p>
                 )}
-                <UploadButton setFile={setFile} file={file} />
+                <UploadButton
+                  setFile={setFile}
+                  file={file}
+                  imageId={verktoy.imageId}
+                />
                 {errors.fileId && (
                   <p className="text-red-500">{errors.fileId.message}</p>
                 )}
