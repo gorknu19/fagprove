@@ -13,7 +13,7 @@ const ToolModal: React.FC<ToolModalProps> = ({
 }) => {
   return (
     <>
-      <div className="fixed w-full p-4 md:inset-0  max-h-full text-center m-auto">
+      <div className="fixed w-full p-4 md:inset-0  max-h-full text-center m-auto box-border  overflow-y-auto">
         <div className="relative w-full max-w-md max-h-full m-auto">
           <div className="bg-slate-700 rounded-lg shadow dark:bg-gray-700  border border-black ">
             <div className="px-6 py-6 lg:px-8">
