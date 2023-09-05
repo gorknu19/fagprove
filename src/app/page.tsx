@@ -1,6 +1,6 @@
 "use client";
 import { useSession } from "next-auth/react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { NewPostModal } from "@/app/components/modal-new-post";
 import { ToastContainer } from "react-toastify";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -18,13 +18,16 @@ function Forum() {
   const [selectedTool, setSelectedTool] = useState<Post | null>(null);
 
   const {
+    status,
     data,
     error,
-    fetchNextPage,
-    hasNextPage,
     isFetching,
     isFetchingNextPage,
-    status,
+    isFetchingPreviousPage,
+    fetchNextPage,
+    fetchPreviousPage,
+    hasNextPage,
+    hasPreviousPage,
   } = useInfiniteQuery({
     queryKey: ["verktoy"],
     queryFn: ({ pageParam = 0 }) =>
@@ -34,6 +37,11 @@ function Forum() {
       }),
     getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
   });
+  React.useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [fetchNextPage, inView]);
 
   function clickModal() {
     setCreatePostModal(!createPostModal);
@@ -62,6 +70,20 @@ function Forum() {
                   return <ToolCard verktoy={verktoy} key={verktoy.id} />;
                 });
               })}
+            <div></div>
+          </div>
+          <div onClick={() => fetchNextPage()} ref={ref}>
+            <button
+              ref={ref}
+              onClick={() => fetchNextPage()}
+              disabled={!hasNextPage || isFetchingNextPage}
+            >
+              {isFetchingNextPage
+                ? "Henter flere..."
+                : hasNextPage
+                ? "Hent flere"
+                : "Ingen mer å hente"}
+            </button>
           </div>
         </div>
       </div>
