@@ -112,6 +112,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                   placeholder="eks:  Borhammer"
                   id="type"
                   className="rounded-md ring-1 ring-black shadow-md"
+                  required
                 />
                 {errors.type && (
                   <p className="text-red-500">{errors.type.message}</p>
@@ -125,6 +126,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                   placeholder="eks:  GBH 18V-26F"
                   {...register("name")}
                   className="rounded-md ring-1 ring-black shadow-md"
+                  required
                 />
                 {errors.name && (
                   <p className="text-red-500">{errors.name.message}</p>
@@ -138,6 +140,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                   placeholder="eks: 23.05.2021"
                   id="datePurchased"
                   className="rounded-md ring-1 ring-black shadow-md"
+                  required
                 />
                 {errors.datePurchased && (
                   <p className="text-red-500">{errors.datePurchased.message}</p>
@@ -151,6 +154,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                   id="operation"
                   placeholder="eks: Batteri 18V"
                   className="rounded-md ring-1 ring-black shadow-md"
+                  required
                 />
                 {errors.operation && (
                   <p className="text-red-500">{errors.operation.message}</p>
@@ -164,6 +168,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                   placeholder="eks: Hylle 2"
                   id="storageSpace"
                   className="rounded-md ring-1 ring-black shadow-md"
+                  required
                 />
                 {errors.storageSpace && (
                   <p className="text-red-500">{errors.storageSpace.message}</p>
@@ -177,6 +182,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                   id="extraEquipment"
                   className="rounded-md ring-1 ring-black shadow-md"
                   placeholder="eks: Bor, batteri, Dybdeanlegg"
+                  required
                 />
                 {errors.extraEquipment && (
                   <p className="text-red-500">
