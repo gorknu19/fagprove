@@ -79,7 +79,6 @@ function Navbar() {
                         role="menu"
                         aria-orientation="vertical"
                       >
-                        <ProfileButton />
                         <LogoutButton />
                       </div>
                     )}

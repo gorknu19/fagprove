@@ -70,13 +70,12 @@ function Forum() {
                   return <ToolCard verktoy={verktoy} key={verktoy.id} />;
                 });
               })}
-            <div></div>
           </div>
-          <div onClick={() => fetchNextPage()} ref={ref}>
+          {data && (
             <button
-              ref={ref}
               onClick={() => fetchNextPage()}
               disabled={!hasNextPage || isFetchingNextPage}
+              ref={ref}
             >
               {isFetchingNextPage
                 ? "Henter flere..."
@@ -84,7 +83,7 @@ function Forum() {
                 ? "Hent flere"
                 : "Ingen mer å hente"}
             </button>
-          </div>
+          )}
         </div>
       </div>
 

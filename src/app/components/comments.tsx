@@ -100,7 +100,7 @@ export const Comments = ({ postId }: CommentsProps) => {
                         queryClient.invalidateQueries([postId]);
                       }}
                     >
-                      Delete
+                      slett
                     </button>
                   </div>
                 )}

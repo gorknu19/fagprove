@@ -9,6 +9,7 @@ import {
   verktoyPostSchemaType,
 } from "../api/verktoy/schema";
 import { useQueryClient } from "@tanstack/react-query";
+import { createPost } from "../services/verktoy.post.service";
 
 interface newPostModalProps {
   clickModal: () => void;
@@ -54,16 +55,8 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
   };
 
   const onSubmit = handleSubmit(async (e) => {
-    let data = {
-      fileId: e.fileId,
-      type: e.type,
-      name: e.name,
-      datePurchased: e.datePurchased,
-      operation: e.operation,
-      storageSpace: e.storageSpace,
-      extraEquipment: e.extraEquipment,
-    };
-    let post = await axios.post("/api/verktoy", data);
+    let data = e;
+    createPost(data);
     clickModal();
     queryClient.invalidateQueries({ queryKey: ["verktoy"] });
   });

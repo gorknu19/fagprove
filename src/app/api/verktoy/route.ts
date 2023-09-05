@@ -4,6 +4,7 @@ import { verktoyPostSchema } from "./schema";
 import { getServerSession } from "next-auth";
 import authOptions from "../auth/[...nextauth]/auth-options";
 import { prisma } from "@/app/lib/prisma";
+import { getToken } from "next-auth/jwt";
 
 export type verktoyGET = {
   posts: (Post & {
@@ -81,4 +82,34 @@ export async function GET(req: NextRequest) {
     postsLength,
     nextCursor: nextCursor,
   });
+}
+
+export async function DELETE(req: NextRequest) {
+  const url = new URL(req.nextUrl);
+  const params = url.searchParams;
+  let postId = params.get("postId");
+
+  const secret = process.env.SECRET;
+  const token = await getToken({ req, secret });
+  const whitelisted = token?.whitelisted;
+
+  if (!postId)
+    return NextResponse.json({ error: "no postId" }, { status: 400 });
+
+  if (whitelisted === !true) {
+    return NextResponse.json({ error: "not authorized" }, { status: 401 });
+  }
+
+  const comment = await prisma.comment.deleteMany({
+    where: {
+      postId: postId,
+    },
+  });
+  const post = await prisma.post.deleteMany({
+    where: {
+      id: postId,
+    },
+  });
+
+  return NextResponse.json({ comment, post });
 }

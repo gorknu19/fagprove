@@ -74,13 +74,14 @@ export async function DELETE(req: NextRequest) {
   if (!commentId)
     return NextResponse.json({ error: "no commentId" }, { status: 400 });
 
-  if (whitelisted === true) {
-    const comment = await prisma.comment.deleteMany({
-      where: {
-        id: commentId,
-      },
-    });
+  if (whitelisted === !true) {
+    return NextResponse.json({ error: "not authorized" }, { status: 401 });
+  }
 
-    return NextResponse.json({ comment });
-  } else return NextResponse.json({ error: "not authorized" }, { status: 401 });
+  const comment = await prisma.comment.deleteMany({
+    where: {
+      id: commentId,
+    },
+  });
+  return NextResponse.json({ comment });
 }

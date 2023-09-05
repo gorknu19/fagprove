@@ -7,9 +7,10 @@ import { useEffect, useState } from "react";
 interface UploadButtonProps {
   setFile: (file: File) => void;
   file: File | null;
+  imageId?: string | null;
 }
 
-export const UploadButton = ({ setFile, file }: UploadButtonProps) => {
+export const UploadButton = ({ setFile, file, imageId }: UploadButtonProps) => {
   const [preview, setPreview] = useState<string | null>(null);
   useEffect(() => {
     if (!file) {
@@ -47,7 +48,23 @@ export const UploadButton = ({ setFile, file }: UploadButtonProps) => {
           </div>
 
           {preview && (
-            <Image height={500} width={500} src={preview} alt="nice" />
+            <Image
+              height={500}
+              width={500}
+              src={preview}
+              alt="nice"
+              key={"preview"}
+            />
+          )}
+
+          {imageId && !preview && (
+            <Image
+              height={500}
+              width={500}
+              src={`/api/image/${imageId}`}
+              alt="nice"
+              key={"preview"}
+            />
           )}
         </label>
         {/* <button
