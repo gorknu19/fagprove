@@ -27,12 +27,22 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
     formState: { errors },
     control,
     setValue,
+    trigger,
+    getValues,
+    setError,
   } = useForm<verktoyPostSchemaType>({
     resolver: zodResolver(verktoyPostSchema),
   });
 
   const onSubmit2 = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+
+    if (!getValues("fileId"))
+      setError("fileId", {
+        type: "custom",
+        message: "upload a picture first",
+      });
+
     let url = "/api/upload";
 
     var formData = new FormData();
@@ -89,6 +99,10 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                 onSubmit={onSubmit2}
                 className="flex flex-col text-black space-y-2"
               >
+                <UploadButton setFile={setFile} file={file} />
+                {errors.fileId && (
+                  <p className="text-red-500">{errors.fileId.message}</p>
+                )}
                 <label htmlFor="type" className="text-white">
                   type:
                 </label>
@@ -169,10 +183,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                     {errors.extraEquipment.message}
                   </p>
                 )}
-                <UploadButton setFile={setFile} file={file} />
-                {errors.fileId && (
-                  <p className="text-red-500">{errors.fileId.message}</p>
-                )}
+
                 <input
                   type="submit"
                   className={`text-gray-300 bg-gray-700 hover:bg-gray-800 hover:text-white rounded-md px-3 py-4 text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer`}
