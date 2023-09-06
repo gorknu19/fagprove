@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+// skjema for zod håndtering til å lage nye verktøy
 export const verktoyPostSchema = z.object({
   fileId: z.string(),
   type: z
@@ -35,6 +36,7 @@ export const verktoyPostSchema = z.object({
     }),
 });
 
+// skjema for zod håndtering til å endre verktøy data
 export const verktoyEditSchema = z.object({
   fileId: z.string(),
   postId: z.string(),
@@ -71,5 +73,6 @@ export const verktoyEditSchema = z.object({
     }),
 });
 
+//exporting av typene som blir laget av zod schema
 export type verktoyPostSchemaType = z.infer<typeof verktoyPostSchema>;
 export type verktoyEditSchemaType = z.infer<typeof verktoyEditSchema>;

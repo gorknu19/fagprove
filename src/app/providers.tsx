@@ -8,6 +8,7 @@ type Props = {
 };
 const queryClient = new QueryClient();
 export const NextAuthProvider = ({ children }: Props) => {
+  // definering av session i hele fila, og query client med alle children i midten
   return (
     <SessionProvider>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

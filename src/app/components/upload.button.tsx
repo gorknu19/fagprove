@@ -4,6 +4,7 @@ import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
+//typer for data som kommer inn i component
 interface UploadButtonProps {
   setFile: (file: File) => void;
   file: File | null;
@@ -12,19 +13,19 @@ interface UploadButtonProps {
 
 export const UploadButton = ({ setFile, file, imageId }: UploadButtonProps) => {
   const [preview, setPreview] = useState<string | null>(null);
+
+  // setter preview hvis det er en file allerede
   useEffect(() => {
     if (!file) {
       setPreview(null);
       return;
     }
-
     const objectUrl = URL.createObjectURL(file);
     setPreview(objectUrl);
-
-    // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl);
   }, [file]);
 
+  // når bilde blir opplaset så blir det satt til state
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (!files) return console.log("no file uploaded");
@@ -46,7 +47,7 @@ export const UploadButton = ({ setFile, file, imageId }: UploadButtonProps) => {
               id="fileUpload"
             />
           </div>
-
+          {/* // hvis det er preview så vises den */}
           {preview && (
             <Image
               height={500}
@@ -56,7 +57,7 @@ export const UploadButton = ({ setFile, file, imageId }: UploadButtonProps) => {
               key={"preview"}
             />
           )}
-
+          {/* hvis imageID er satt og ingen preview så vises den istedet, dette er for redigering componenten */}
           {imageId && !preview && (
             <Image
               height={500}
@@ -67,14 +68,6 @@ export const UploadButton = ({ setFile, file, imageId }: UploadButtonProps) => {
             />
           )}
         </label>
-        {/* <button
-          className={` text-gray-300 bg-gray-700 hover:bg-gray-800 hover:text-white rounded-b-md px-3 py-4 text-sm font-medium`}
-          onClick={onUpload}
-          type="button"
-        >
-          Upload Picture
-        </button> */}
-        <input className="hidden" />
       </div>
     </div>
   );

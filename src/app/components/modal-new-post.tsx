@@ -16,10 +16,13 @@ interface newPostModalProps {
 }
 
 export const NewPostModal = ({ clickModal }: newPostModalProps) => {
-  // const [fileId, setFileId] = useState<string | undefined>();
+  //state for fil, session data og query client
+
   const [file, setFile] = useState<File | null>(null);
   const { data: session } = useSession();
   const queryClient = useQueryClient();
+
+  //useform som blir brukt for formen som sender inn data til å lage comment, som har resolver fra zod som validerer alt før den i det heletatt sender de
 
   const {
     register,
@@ -34,6 +37,8 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
     resolver: zodResolver(verktoyPostSchema),
   });
 
+  // onsubmit 2 blir kjørt når form blir levert inn så den kan lagre bildet på databasen før densender inn data med image id som kommer fra det api'et
+
   const onSubmit2 = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
@@ -43,22 +48,27 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
         message: "upload a picture first",
       });
 
-    let url = "/api/upload";
-
-    var formData = new FormData();
     if (!file) return console.log("no file uploaded!");
 
+    // setting av data som blir sendt
+    let url = "/api/upload";
+    var formData = new FormData();
     formData.append("file", file, file.name);
 
+    // bilde blir sendt og lagert på pc
     let res = await axios.post(url, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-
+    // fileId blir satt
     setValue("fileId", res.data.imageDataDB.id);
+
+    // original onsubmit kjør
     onSubmit(e);
   };
+
+  // on submit som også sjekker om data er rendt med handle submit, og hvis den går forbi validering, så blir posten sendt og posts blir henta på nytt
 
   const onSubmit = handleSubmit(async (e) => {
     let data = e;

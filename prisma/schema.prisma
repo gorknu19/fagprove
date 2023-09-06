@@ -5,11 +5,13 @@ generator client {
   provider = "prisma-client-js"
 }
 
+//database data
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
+// Account tabell for prisma adapter linket til next auth
 model Account {
   id                String  @id @default(cuid())
   userId            String
@@ -28,6 +30,7 @@ model Account {
   @@unique([provider, providerAccountId])
 }
 
+// session tabell for prisma adapter linket til next auth
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
@@ -36,6 +39,7 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// user tabell for prisma adapter linket til next auth
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -49,6 +53,7 @@ model User {
   Comment       Comment[]
 }
 
+// verification tabell for prisma adapter linket til next auth
 model VerificationToken {
   identifier String
   token      String   @unique
@@ -57,6 +62,7 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+// model for hvordan posts ser ut på databse, med link til users og comments
 model Post {
   id             String    @id @unique @default(uuid())
   name           String
@@ -74,6 +80,7 @@ model Post {
   imageId        String?
 }
 
+// model til utformingen til comment, med link til User og posts
 model Comment {
   id        String   @id @default(uuid())
   content   String
@@ -84,6 +91,7 @@ model Comment {
   post      Post     @relation(fields: [postId], references: [id])
 }
 
+//model for hvordan lagring av bilde data er på databasen, med link til post
 model Image {
   id       String @id @default(uuid())
   imageId  String @unique

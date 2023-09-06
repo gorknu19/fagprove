@@ -17,6 +17,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // nextauth puttet rundt i layout så jeg har accesss til session i hele koden, og navbar over der resten av siden er
   return (
     <html lang="en">
       <NextAuthProvider>

@@ -1,6 +1,5 @@
 "use client";
 import { signIn } from "next-auth/react";
-import { LoginForm } from "./form";
 
 function Login() {
   return (
