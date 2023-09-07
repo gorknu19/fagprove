@@ -14,7 +14,7 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ success: false }, { status: 400 });
   }
 
-  // henter b uffer og bytes data
+  // henter buffer og bytes data
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
 

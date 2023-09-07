@@ -69,7 +69,7 @@ export const EditToolModal = ({ verktoy, clickModal }: EditToolModalProps) => {
   // on submit som også sjekker om data er rendt med handle submit, og hvis den går forbi validering, så blir posten edita og posts blir henta på nytt
   const onSubmit = handleSubmit(async (e) => {
     let data = e;
-    editPost(data);
+    await editPost(data);
     clickModal();
     queryClient.invalidateQueries({ queryKey: ["verktoy"] });
   });
