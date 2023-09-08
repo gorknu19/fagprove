@@ -2,14 +2,10 @@
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { NewPostModal } from "@/app/components/modal-new-post";
-import { ToastContainer } from "react-toastify";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
-import Image from "next/image";
 import { getPosts } from "./services/verktoy.post.service";
 import ToolCard from "./components/verktoy.card";
-import { Post } from "@prisma/client";
-import ToolModal from "./components/verktoy.modal";
 
 function Forum() {
   // ref og inview for å trigger henting av flere posts, session data og state for å vise modal for å lage post,
@@ -96,15 +92,6 @@ function Forum() {
       </div>
       {/* modal for visning av new post */}
       {createPostModal && <NewPostModal clickModal={clickModal} />}
-      <ToastContainer
-        position={"top-right"}
-        autoClose={5000}
-        hideProgressBar={false}
-        closeOnClick={true}
-        pauseOnHover={true}
-        draggable={true}
-        theme={"dark"}
-      />
     </>
   );
 }
