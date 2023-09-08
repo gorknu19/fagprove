@@ -14,6 +14,15 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ success: false }, { status: 400 });
   }
 
+  const fileType = file["type"];
+  if (!fileType.startsWith("image")) {
+    // invalid file type code goes here.
+    return NextResponse.json(
+      { error: "this is not an image file" },
+      { status: 400 },
+    );
+  }
+
   // henter buffer og bytes data
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);

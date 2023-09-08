@@ -29,6 +29,7 @@ export const UploadButton = ({ setFile, file, imageId }: UploadButtonProps) => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
     if (!files) return console.log("no file uploaded");
+
     console.log(files[0]);
 
     setFile(files[0]);
@@ -39,9 +40,10 @@ export const UploadButton = ({ setFile, file, imageId }: UploadButtonProps) => {
       <div className="flex flex-col">
         <label htmlFor={"fileUpload"} className="cursor-pointer">
           <div className="text-gray-300 bg-gray-700 hover:bg-gray-800 hover:text-white font-medium text-sm p-4 flex flex-col items-center gap-2  rounded-t-md  ">
-            <span>Choose some files to upload</span>
+            <span>Velg et bilde for å opplaste</span>
             <input
               type="file"
+              // accept="image/*"
               onChange={onChange}
               className="hidden"
               id="fileUpload"
@@ -53,7 +55,7 @@ export const UploadButton = ({ setFile, file, imageId }: UploadButtonProps) => {
               height={500}
               width={500}
               src={preview}
-              alt="nice"
+              alt="verktøy"
               key={"preview"}
             />
           )}
@@ -63,7 +65,7 @@ export const UploadButton = ({ setFile, file, imageId }: UploadButtonProps) => {
               height={500}
               width={500}
               src={`/api/image/${imageId}`}
-              alt="nice"
+              alt="verktøy"
               key={"preview"}
             />
           )}
