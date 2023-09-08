@@ -5,13 +5,15 @@ export const verktoyPostSchema = z.object({
   fileId: z.string(),
   type: z
     .string()
-    .min(5)
+    .min(3)
+    .max(64)
     .transform((type) => {
       return type.trim();
     }),
   name: z
     .string()
-    .min(5)
+    .min(3)
+    .max(64)
     .transform((title) => {
       return title.trim();
     }),
@@ -19,18 +21,21 @@ export const verktoyPostSchema = z.object({
   operation: z
     .string()
     .min(5)
+    .max(256)
     .transform((operation) => {
       return operation.trim();
     }),
   storageSpace: z
     .string()
     .min(5)
+    .max(128)
     .transform((title) => {
       return title.trim();
     }),
   extraEquipment: z
     .string()
-    .min(10)
+    .min(5)
+    .max(128)
     .transform((content) => {
       return content.trim();
     }),
@@ -42,13 +47,15 @@ export const verktoyEditSchema = z.object({
   postId: z.string(),
   type: z
     .string()
-    .min(5)
+    .min(3)
+    .max(64)
     .transform((type) => {
       return type.trim();
     }),
   name: z
     .string()
-    .min(5)
+    .min(3)
+    .max(64)
     .transform((title) => {
       return title.trim();
     }),
@@ -56,18 +63,21 @@ export const verktoyEditSchema = z.object({
   operation: z
     .string()
     .min(5)
+    .max(256)
     .transform((operation) => {
       return operation.trim();
     }),
   storageSpace: z
     .string()
     .min(5)
+    .max(128)
     .transform((title) => {
       return title.trim();
     }),
   extraEquipment: z
     .string()
-    .min(10)
+    .min(5)
+    .max(128)
     .transform((content) => {
       return content.trim();
     }),
