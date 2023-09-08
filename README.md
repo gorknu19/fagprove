@@ -54,7 +54,7 @@ prisma db push
 
 6. 
 
-lage folderen C:\\verktoy-filer for lagring av bilder som blir opplastet, dette kan endres til hva enn du vil men da må koden endres og
+Create the folder  C:\\verktoy-filer this is where images get uploaded, this can be changed to another folder but then you need to change the code too
 
 Once finished, run the website
 ```
