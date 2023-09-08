@@ -14,9 +14,9 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ success: false }, { status: 400 });
   }
 
+  //sjekke om filen som er opplastet er bilde
   const fileType = file["type"];
   if (!fileType.startsWith("image")) {
-    // invalid file type code goes here.
     return NextResponse.json(
       { error: "this is not an image file" },
       { status: 400 },
@@ -25,6 +25,11 @@ export const POST = async (req: NextRequest) => {
 
   // henter buffer og bytes data
   const bytes = await file.arrayBuffer();
+
+  //sjekk om filen er for stor
+  if (bytes.byteLength > 10 * 1000000)
+    return NextResponse.json({ error: "File is too big" }, { status: 400 });
+
   const buffer = Buffer.from(bytes);
 
   // lager unik id
