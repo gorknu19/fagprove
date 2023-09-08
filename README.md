@@ -53,9 +53,9 @@ prisma db push
 ```
 
 6. 
-```
+
 lage folderen C:\\verktoy-filer for lagring av bilder som blir opplastet, dette kan endres til hva enn du vil men da må koden endres og
-```
+
 Once finished, run the website
 ```
 npm run dev
