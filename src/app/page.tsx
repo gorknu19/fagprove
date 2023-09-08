@@ -58,7 +58,7 @@ function Forum() {
       <div className="flex justify-center align-middle">
         <div className="text-center">
           <h1 className={`text-center font-bold text-lg m-5 `}>
-            Welcome to the forum {session?.user?.name}
+            Velkommen til verktøy kassa {session?.user?.name}
           </h1>
           {/* // hvis mann er admin kan man se create new post */}
           {session?.user?.whitelisted === true && (
@@ -66,11 +66,10 @@ function Forum() {
               onClick={clickModal}
               className={` text-gray-300 bg-gray-700 hover:bg-gray-800 hover:text-white rounded-md px-3 py-2 text-sm font-medium`}
             >
-              Create post
+              Legg inn verktøy
             </button>
           )}
-          <h1 className="font-bold"> Posts </h1>
-          <div className="flex flex-wrap p-5 ">
+          <div className="flex flex-wrap p-5  mt-10">
             {/* data blir mappa ut i tool cards */}
             {data &&
               data.pages.map((page) => {

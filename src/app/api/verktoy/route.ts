@@ -69,7 +69,6 @@ export async function GET(req: NextRequest) {
   const params = url.searchParams;
   let pageSize = parseInt(params.get("pageSize") || "2");
   let skip = parseInt(params.get("skip") || "0");
-  let userId = params.get("userId");
 
   // teller mengden posts
   const postsLength = await prisma.post.count();
@@ -144,7 +143,7 @@ export const PATCH = async (req: NextRequest) => {
 
   //sjekker whitelist
   if (whitelisted === !true) {
-    return NextResponse.json({ error: "not authorized" }, { status: 401 });
+    return NextResponse.json({ error: "ikke rettigheter" }, { status: 401 });
   }
 
   // validerer om dataen er rett og passer
