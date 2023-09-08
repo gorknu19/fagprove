@@ -10,7 +10,7 @@
 ## Getting Started
 
 ### Requirements for this project
-Install [NodeJS](https://nodejs.org/en/download) and [Docker]((https://www.docker.com))
+Install [NodeJS](https://nodejs.org/en/download) and [Docker](https://www.docker.com)
 
 
 ___
@@ -51,6 +51,10 @@ docker compose up -d
 prisma generate
 prisma db push
 ```
+
+6. 
+
+Create the folder  C:\\verktoy-filer this is where images get uploaded, this can be changed to another folder but then you need to change the code too
 
 Once finished, run the website
 ```
