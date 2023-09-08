@@ -1,6 +1,4 @@
-import { writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
-import { UUID, randomUUID } from "crypto";
 
 import fs from "fs";
 import { prisma } from "@/app/lib/prisma";
