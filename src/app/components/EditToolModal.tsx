@@ -100,16 +100,16 @@ export const EditToolModal = ({ verktoy, clickModal }: EditToolModalProps) => {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                <span className="sr-only">Close modal</span>
+                <span className="sr-only">lukk modal</span>
               </button>
-              <h1 className="p-2 font-bold "> Edit Post!</h1>
+              <h1 className="p-2 font-bold "> Endre verktøy</h1>
               {/*  edit post form */}
               <form
                 onSubmit={onSubmit2}
                 className="flex flex-col text-black space-y-2"
               >
                 <label htmlFor="type" className="text-white">
-                  type:
+                  Type:
                 </label>
                 <input
                   type="text"

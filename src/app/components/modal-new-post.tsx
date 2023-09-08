@@ -102,9 +102,9 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                <span className="sr-only">Close modal</span>
+                <span className="sr-only">Lukk modal</span>
               </button>
-              <h1 className="p-2 font-bold "> Create Post!</h1>
+              <h1 className="p-2 font-bold "> Nytt verktøy</h1>
               <form
                 onSubmit={onSubmit2}
                 className="flex flex-col text-black space-y-2"
@@ -114,7 +114,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                   <p className="text-red-500">{errors.fileId.message}</p>
                 )}
                 <label htmlFor="type" className="text-white">
-                  type:
+                  Type:
                 </label>
                 <input
                   type="text"

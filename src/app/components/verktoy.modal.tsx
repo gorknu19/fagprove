@@ -15,6 +15,7 @@ const ToolModal: React.FC<ToolModalProps> = ({
 }) => {
   // henter session data
   const { data: session, status: sessionStatus } = useSession();
+  var formatedDate = verktoy.datePurchased.toString().slice(0, 10);
 
   return (
     <>
@@ -41,7 +42,7 @@ const ToolModal: React.FC<ToolModalProps> = ({
                     clipRule="evenodd"
                   ></path>
                 </svg>
-                <span className="sr-only">Close modal</span>
+                <span className="sr-only">lukk modal</span>
               </button>
               <div className="mt-10">
                 <div className="flex justify-center">
@@ -55,7 +56,7 @@ const ToolModal: React.FC<ToolModalProps> = ({
                 </div>
                 <h3 className="text-2xl font-semibold">{verktoy.name}</h3>
                 <p>Type: {verktoy.type}</p>
-                <p>Dato Kjøpt: {verktoy.datePurchased.toString()}</p>
+                <p>Dato Kjøpt: {formatedDate}</p>
                 <p>Drift: {verktoy.operation}</p>
                 <p>Lager plass: {verktoy.storageSpace}</p>
                 <p>Ekstra utstyr: {verktoy.extraEquipment}</p>

@@ -66,7 +66,7 @@ export const Comments = ({ postId }: CommentsProps) => {
             <input
               type="text"
               className="w-4/5 border border-gray-300 rounded-full m-2 p-2 text-black"
-              placeholder="Add a comment"
+              placeholder="Kommentar"
               {...register("content")}
             />
             {errors.content && (
@@ -96,6 +96,7 @@ export const Comments = ({ postId }: CommentsProps) => {
               <p className="">{comment.content}</p>
               <div className="flex justify-between items-center mt-2">
                 <p className="text-sm">{formatedDate}</p>
+                <p className="text-sm">{comment.user.name}</p>
                 {/* hvis mann har admin rettigheter så kan manns e slette og edit knapper */}
                 {session?.user?.whitelisted === true && (
                   <div className="mt-2">

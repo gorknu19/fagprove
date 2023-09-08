@@ -10,7 +10,7 @@ export const LoginButton = () => {
       onClick={() => signIn()}
       className={` text-gray-300 bg-gray-700 hover:bg-gray-800 hover:text-white rounded-md px-3 py-2 text-sm font-medium`}
     >
-      Sign in
+      Logg inn
     </button>
   );
 };
@@ -26,7 +26,7 @@ export const LogoutButton = () => {
       }
       className={`m-5 text-gray-300 bg-gray-700 hover:bg-gray-800 hover:text-white rounded-md px-3 py-2 text-sm font-medium`}
     >
-      Sign out
+      Logg ut
     </button>
   );
 };
@@ -38,7 +38,7 @@ export const ProfileButton = () => {
       href="/profile"
       className={`m-5  text-gray-300 bg-gray-700 hover:bg-gray-800 hover:text-white rounded-md px-3 py-2 text-sm font-medium`}
     >
-      Profile
+      Profil
     </Link>
   );
 };

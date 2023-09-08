@@ -56,7 +56,7 @@ function Navbar() {
                         aria-haspopup="true"
                         onClick={clickModal}
                       >
-                        <span className="sr-only">Open user menu</span>
+                        <span className="sr-only">åpne bruker meny</span>
                         {session.user && (
                           <svg
                             className="block h-6 w-6 text-white"
