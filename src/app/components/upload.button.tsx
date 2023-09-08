@@ -43,7 +43,7 @@ export const UploadButton = ({ setFile, file, imageId }: UploadButtonProps) => {
             <span>Velg et bilde for å opplaste</span>
             <input
               type="file"
-              // accept="image/*"
+              accept="image/*"
               onChange={onChange}
               className="hidden"
               id="fileUpload"
