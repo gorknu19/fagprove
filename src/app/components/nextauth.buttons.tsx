@@ -3,6 +3,7 @@
 import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 
+// knapp for å logge inn
 export const LoginButton = () => {
   return (
     <button
@@ -14,6 +15,7 @@ export const LoginButton = () => {
   );
 };
 
+// knapp for å logge ut
 export const LogoutButton = () => {
   return (
     <button
@@ -29,6 +31,7 @@ export const LogoutButton = () => {
   );
 };
 
+//knapp for å vise profil data
 export const ProfileButton = () => {
   return (
     <Link

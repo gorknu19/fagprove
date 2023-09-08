@@ -1,84 +1,81 @@
 import { prisma } from "@/app/lib/prisma";
+import axios from "axios";
 import { compare } from "bcryptjs";
 import NextAuth from "next-auth";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 export const authOptions: NextAuthOptions = {
+  //definer at prisma blir brukt som adapter
+  adapter: PrismaAdapter(prisma),
+
+  // henter inn secret for nextauth
   secret: process.env.SECRET,
+
+  //endring av login side til å være selvlagd og ikke nextauth sinn innebygde
   pages: {
     signIn: "/login",
   },
+
+  // definer at session skal bruke JWT token som strategy
   session: {
     strategy: "jwt",
   },
+
+  // definering av prover for login
   providers: [
-    CredentialsProvider({
-      name: "Sign in",
-      credentials: {
-        email: {
-          label: "Email",
-          type: "email",
-          placeholder: "example@example.com",
-        },
-        password: { label: "Password", type: "password" },
-      },
-      async authorize(credentials) {
-        if (!credentials?.email || !credentials.password) {
-          return null;
-        }
-
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
-        });
-
-        if (!user || !(await compare(credentials.password, user.password))) {
-          return null;
-        }
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          whitelisted: user.whitelisted,
-        };
-      },
-    }),
+    // google prover med client id og secret hentet inn fra .env fil
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "google client id",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "google client secret",
     }),
   ],
+
+  // definer callbacks til next auth og ka de gjør
   callbacks: {
-    session: ({ session, token }) => {
-      return {
+    // callback når det blir sport for session data
+    async session({ session }) {
+      // henting av bruker data fra databasen
+      const userData = await prisma.user.findFirst({
+        where: {
+          email: session.user?.email,
+        },
+      });
+
+      // lag ny oppdatert session med data fra databasen
+      const updatedSession = {
         ...session,
         user: {
           ...session.user,
-          id: token.id,
+          whitelisted: userData?.whitelisted,
+          id: userData?.id,
         },
       };
+      // retirnering av session
+      return updatedSession;
     },
-    jwt: ({ token, user, account }) => {
-      if (account?.provider == "google")
-        return {
-          ...token,
-          user,
-        };
 
-      if (user) {
-        const u = user as unknown as any;
-        return {
-          ...token,
-          id: u.id,
-          whitelisted: u.whitelisted,
-          randomKey: u.randomKey,
-        };
-      }
-      return token;
+    // callback for når det blir spurt om token
+    async jwt({ token, user, account, profile, isNewUser }) {
+      // henta bruker data
+      const userData = await prisma.user.findFirst({
+        where: {
+          email: token.email,
+        },
+      });
+
+      // lager en ny oppdatert token med mer data
+      const updatedToken = {
+        ...token,
+        user: {
+          whitelisted: userData?.whitelisted,
+          id: userData?.id,
+        },
+      };
+      //returnerer token
+      return updatedToken;
     },
   },
 };

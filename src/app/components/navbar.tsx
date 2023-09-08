@@ -10,9 +10,11 @@ import {
 import { useState } from "react";
 
 function Navbar() {
+  //henting av session og  state blir satt
   const { data: session } = useSession();
   const [showModal, setShowModal] = useState<boolean>(false);
 
+  // modal toggling for modalen med signout
   function clickModal() {
     setShowModal(!showModal);
   }

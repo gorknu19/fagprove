@@ -2,11 +2,13 @@ import axios from "axios";
 import { verktoyCommentSchemaType } from "../api/verktoy/comments/schema";
 import { commentGET } from "../api/verktoy/comments/route";
 
+// typer for api call til å lage comment
 type CreateCommentParams = verktoyCommentSchemaType;
 export type verktoyComment = {
   comment: Comment;
 };
 
+// api call til å lage comment
 export const createComment = async ({
   content,
   postId,
@@ -17,12 +19,13 @@ export const createComment = async ({
   });
 };
 
+// get comment typer
 interface GetCommentsParams {
   postId: string;
 }
 
+// api request for å hente comments
 export const getComments = async ({ postId }: GetCommentsParams) => {
-  console.log(postId);
   let res = await axios.get<commentGET>(`/api/verktoy/comments`, {
     params: {
       postId: postId,
@@ -32,6 +35,7 @@ export const getComments = async ({ postId }: GetCommentsParams) => {
   return res.data;
 };
 
+// api request for å slette comments
 export const deleteComment = async (commentId: string) => {
   console.log(commentId);
   let res = await axios.delete(`/api/verktoy/comments`, {

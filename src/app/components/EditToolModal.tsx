@@ -12,17 +12,19 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Post } from "@prisma/client";
 import { editPost } from "../services/verktoy.post.service";
 
+// typer av det som kommer inn til funskjon
 interface EditToolModalProps {
   verktoy: Post;
   clickModal: () => void;
 }
 
 export const EditToolModal = ({ verktoy, clickModal }: EditToolModalProps) => {
-  // const [editedTool, setEditedTool] = useState(verktoy);
+  //state for fil, session data og query client
   const [file, setFile] = useState<File | null>(null);
   const { data: session } = useSession();
   const queryClient = useQueryClient();
 
+  //usefomr som blir brukt for formen som sender inn data til å lage comment, som har resolver fra zod som validerer alt før den i det heletatt sender de
   const {
     register,
     handleSubmit,
@@ -39,37 +41,46 @@ export const EditToolModal = ({ verktoy, clickModal }: EditToolModalProps) => {
     resolver: zodResolver(verktoyEditSchema),
   });
 
+  // onsubmit 2 blir kjørt når form blir levert inn så den kan lagre bildet på databasen før densender inn data med image id som kommer fra det api'et
   const onSubmit2 = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
+    //hvis ingen fil har blitt oppdater (bruker har lastet opp nytt bilde) så kjøres onsubmit med en gang
     if (!file) return onSubmit(e);
 
+    // setting av data som blir sendt
     let url = "/api/upload";
     var formData = new FormData();
     formData.append("file", file, file.name);
+
+    // bilde blir sendt og lagert på pc
     let res = await axios.post(url, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
+    // fileId blir satt
     setValue("fileId", res.data.imageDataDB.id);
+
+    // original onsubmit kjør
     onSubmit(e);
   };
 
+  // on submit som også sjekker om data er rendt med handle submit, og hvis den går forbi validering, så blir posten edita og posts blir henta på nytt
   const onSubmit = handleSubmit(async (e) => {
     let data = e;
-    editPost(data);
+    await editPost(data);
     clickModal();
     queryClient.invalidateQueries({ queryKey: ["verktoy"] });
   });
 
-  console.log(file);
   return (
     <>
       <div className="fixed w-full p-4 md:inset-0  max-h-full text-center m-auto box-border  overflow-y-auto">
         <div className="relative w-full max-w-md max-h-full m-auto">
           <div className="bg-slate-500 rounded-lg shadow dark:bg-gray-700  border border-black ">
             <div className="px-6 py-6 lg:px-8">
+              {/* knapp for å lukke edit modalen */}
               <button
                 type="button"
                 className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
@@ -92,6 +103,7 @@ export const EditToolModal = ({ verktoy, clickModal }: EditToolModalProps) => {
                 <span className="sr-only">Close modal</span>
               </button>
               <h1 className="p-2 font-bold "> Edit Post!</h1>
+              {/*  edit post form */}
               <form
                 onSubmit={onSubmit2}
                 className="flex flex-col text-black space-y-2"

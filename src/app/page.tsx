@@ -12,11 +12,12 @@ import { Post } from "@prisma/client";
 import ToolModal from "./components/verktoy.modal";
 
 function Forum() {
+  // ref og inview for å trigger henting av flere posts, session data og state for å vise modal for å lage post,
   const { ref, inView } = useInView();
   const { data: session, status: sessionStatus } = useSession();
   const [createPostModal, setCreatePostModal] = useState<boolean>(false);
-  const [selectedTool, setSelectedTool] = useState<Post | null>(null);
 
+  //use infinite query som henter ut dataen fra databasen og hjelper hpndtere det å hente nye posts når det trengs
   const {
     status,
     data,
@@ -31,18 +32,23 @@ function Forum() {
   } = useInfiniteQuery({
     queryKey: ["verktoy"],
     queryFn: ({ pageParam = 0 }) =>
+      //posts blir hentet med størrelse av 5 som blir hentet hver gang
       getPosts({
         skip: pageParam,
         pageSize: 5,
       }),
+    // params for å hente flere sider
     getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
   });
+
+  // hvis inview vises hentes flere posts
   React.useEffect(() => {
     if (inView) {
       fetchNextPage();
     }
   }, [fetchNextPage, inView]);
 
+  // modal toggling
   function clickModal() {
     setCreatePostModal(!createPostModal);
   }
@@ -52,18 +58,19 @@ function Forum() {
       <div className="flex justify-center align-middle">
         <div className="text-center">
           <h1 className={`text-center font-bold text-lg m-5 `}>
-            Welcome to the forum {session?.user?.name}
+            Velkommen til verktøy kassa {session?.user?.name}
           </h1>
-          {session?.user?.id && (
+          {/* // hvis mann er admin kan man se create new post */}
+          {session?.user?.whitelisted === true && (
             <button
               onClick={clickModal}
               className={` text-gray-300 bg-gray-700 hover:bg-gray-800 hover:text-white rounded-md px-3 py-2 text-sm font-medium`}
             >
-              Create post
+              Legg inn verktøy
             </button>
           )}
-          <h1 className="font-bold"> Posts </h1>
-          <div className="flex flex-wrap p-5 ">
+          <div className="flex flex-wrap p-5  mt-10">
+            {/* data blir mappa ut i tool cards */}
             {data &&
               data.pages.map((page) => {
                 return page.posts.map((verktoy) => {
@@ -71,6 +78,7 @@ function Forum() {
                 });
               })}
           </div>
+          {/* kode som henter ny data hvis man scroller ned til den, eller trykker hent flere */}
           {data && (
             <button
               onClick={() => fetchNextPage()}
@@ -86,7 +94,7 @@ function Forum() {
           )}
         </div>
       </div>
-
+      {/* modal for visning av new post */}
       {createPostModal && <NewPostModal clickModal={clickModal} />}
       <ToastContainer
         position={"top-right"}

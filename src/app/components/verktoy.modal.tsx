@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Comments } from "./comments";
 import { useSession } from "next-auth/react";
 
+//type for data som kommer inn i componenten
 interface ToolModalProps {
   verktoy: Post;
   clickModal: () => void;
@@ -12,6 +13,7 @@ const ToolModal: React.FC<ToolModalProps> = ({
   verktoy: verktoy,
   clickModal,
 }) => {
+  // henter session data
   const { data: session, status: sessionStatus } = useSession();
 
   return (
@@ -53,11 +55,12 @@ const ToolModal: React.FC<ToolModalProps> = ({
                 </div>
                 <h3 className="text-2xl font-semibold">{verktoy.name}</h3>
                 <p>Type: {verktoy.type}</p>
-                <p>Date Purchased: {verktoy.datePurchased.toString()}</p>
-                <p>Operation: {verktoy.operation}</p>
-                <p>Storage Spot: {verktoy.storageSpace}</p>
-                <p>Extra Equipment: {verktoy.extraEquipment}</p>
-                {/* <p>Comments: {verktoy.comments}</p> */}
+                <p>Dato Kjøpt: {verktoy.datePurchased.toString()}</p>
+                <p>Drift: {verktoy.operation}</p>
+                <p>Lager plass: {verktoy.storageSpace}</p>
+                <p>Ekstra utstyr: {verktoy.extraEquipment}</p>
+
+                {/* hvis mann er logget inn så renderes comments component der den sender id til posten og */}
                 {session?.user && <Comments postId={verktoy.id} />}
               </div>
             </div>

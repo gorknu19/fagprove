@@ -3,21 +3,28 @@ import { NextRequest, NextResponse } from "next/server";
 import { UUID, randomUUID } from "crypto";
 import { prisma } from "@/app/lib/prisma";
 
+//opplasting av bilde
 export const POST = async (req: NextRequest) => {
+  // data blir satt
   const data = await req.formData();
   const file: File | null = data.get("file") as unknown as File;
 
+  //error hvis det ikke er fil
   if (!file) {
     return NextResponse.json({ success: false }, { status: 400 });
   }
 
+  // henter buffer og bytes data
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
 
+  // lager unik id
   let uniqueId = randomUUID();
 
+  // settter path med id
   const path = `C:\\verktoy-filer\\${uniqueId}`;
 
+  //lagrer info om bildet på database
   let imageDataDB = await prisma.image.create({
     data: {
       path,
@@ -26,6 +33,7 @@ export const POST = async (req: NextRequest) => {
     },
   });
 
+  // skriver fil til lagringsplass
   await writeFile(path, buffer);
   console.log(`open ${path} to see the uploaded file`);
 

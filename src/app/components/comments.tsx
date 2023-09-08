@@ -13,14 +13,17 @@ import {
   getComments,
 } from "../services/verktoy.comment.service";
 
+// typer for det som kommer inn til comment component
 interface CommentsProps {
   postId: string;
 }
 
 export const Comments = ({ postId }: CommentsProps) => {
+  // henteing av session data og sett query client
   const { data: session, status: sessionStatus } = useSession();
   const queryClient = useQueryClient();
 
+  //henting av data med usequery
   const { data, error, isFetching, status } = useQuery({
     queryKey: [postId],
     queryFn: () =>
@@ -29,8 +32,7 @@ export const Comments = ({ postId }: CommentsProps) => {
       }),
   });
 
-  console.log(data);
-
+  //usefomr som blir brukt for formen som sender inn data til å lage comment, som har resolver fra zod som validerer alt før den i det heletatt sender de
   const {
     register,
     handleSubmit,
@@ -41,12 +43,15 @@ export const Comments = ({ postId }: CommentsProps) => {
       postId: postId,
     },
   });
+
+  // det som kjøres når formen går forbi validering
   const mutation = useMutation({
     mutationFn: (postData: verktoyCommentSchemaType) => {
       return createComment(postData);
     },
   });
 
+  // funskjon som kjøres når form blir sendt inn der mutation går til query tingen og validerer data så invalidate postid som gjør at den henter post dataen igjen
   const onSubmit: SubmitHandler<verktoyCommentSchemaType> = async (data) => {
     await mutation.mutateAsync(data);
     queryClient.invalidateQueries([postId]);
@@ -55,6 +60,7 @@ export const Comments = ({ postId }: CommentsProps) => {
   return (
     <>
       <div className="mt-4">
+        {/* sjekker om mann er logget inn for at lag comment form ska vises */}
         {session?.user && (
           <form onSubmit={handleSubmit(onSubmit)}>
             <input
@@ -77,6 +83,7 @@ export const Comments = ({ postId }: CommentsProps) => {
           </form>
         )}
       </div>
+      {/* map av comments som blir hentet for å vise de fram */}
       {Array.isArray(data) &&
         data.map((comment) => {
           var formatedDate = comment.createdAt
@@ -89,8 +96,8 @@ export const Comments = ({ postId }: CommentsProps) => {
               <p className="">{comment.content}</p>
               <div className="flex justify-between items-center mt-2">
                 <p className="text-sm">{formatedDate}</p>
-
-                {session?.user?.id && (
+                {/* hvis mann har admin rettigheter så kan manns e slette og edit knapper */}
+                {session?.user?.whitelisted === true && (
                   <div className="mt-2">
                     <button
                       className="px-2 py-1 bg-red-500 text-white rounded-md"
