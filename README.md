@@ -10,7 +10,7 @@
 ## Getting Started
 
 ### Requirements for this project
-Install [NodeJS](https://nodejs.org/en/download) and [Docker]((https://www.docker.com))
+Install [NodeJS](https://nodejs.org/en/download) and [Docker](https://www.docker.com)
 
 
 ___
