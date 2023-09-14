@@ -1,7 +1,7 @@
 // type for å serialize dates
 export type SerializedStateDates<T> = Omit<
   T,
-  "deletedAt" | "publishedAt" | "createdAt" | "updatedAt" | "datePurchased"
+  'deletedAt' | 'publishedAt' | 'createdAt' | 'updatedAt' | 'datePurchased'
 > & {
   publishedAt: string;
   datePurchased: string;

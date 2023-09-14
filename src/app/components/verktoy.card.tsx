@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import Image from "next/image";
-import { Post } from "@prisma/client";
-import ToolModal from "./verktoy.modal";
-import { Comments } from "./comments";
-import { useSession } from "next-auth/react";
-import { useQueryClient } from "@tanstack/react-query";
-import { deletePost } from "../services/verktoy.post.service";
-import { EditToolModal } from "./EditToolModal";
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { Post } from '@prisma/client';
+import ToolModal from './verktoy.modal';
+import { Comments } from './comments';
+import { useSession } from 'next-auth/react';
+import { useQueryClient } from '@tanstack/react-query';
+import { deletePost } from '../services/verktoy.post.service';
+import { EditToolModal } from './EditToolModal';
 
 // typer for data som blir sendt inn til component
 interface ToolcardProps {
@@ -63,7 +63,7 @@ const ToolCard = ({ verktoy }: ToolcardProps) => {
                   );
                   if (result) {
                     await deletePost(verktoy.id);
-                    queryClient.invalidateQueries(["verktoy"]);
+                    queryClient.invalidateQueries(['verktoy']);
                   }
                 }}
               >

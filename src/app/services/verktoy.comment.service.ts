@@ -1,6 +1,6 @@
-import axios from "axios";
-import { verktoyCommentSchemaType } from "../api/verktoy/comments/schema";
-import { commentGET } from "../api/verktoy/comments/route";
+import axios from 'axios';
+import { verktoyCommentSchemaType } from '../api/verktoy/comments/schema';
+import { commentGET } from '../api/verktoy/comments/route';
 
 // typer for api call til å lage comment
 type CreateCommentParams = verktoyCommentSchemaType;
@@ -13,7 +13,7 @@ export const createComment = async ({
   content,
   postId,
 }: CreateCommentParams) => {
-  const res = await axios.post<verktoyComment>("/api/verktoy/comments", {
+  const res = await axios.post<verktoyComment>('/api/verktoy/comments', {
     content,
     postId,
   });

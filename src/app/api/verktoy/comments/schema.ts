@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 // comment schema for laging av kommentar
 export const verktoyCommentSchema = z.object({

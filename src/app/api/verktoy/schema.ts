@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 // skjema for zod håndtering til å lage nye verktøy
 export const verktoyPostSchema = z.object({
@@ -17,7 +17,7 @@ export const verktoyPostSchema = z.object({
     .transform((title) => {
       return title.trim();
     }),
-  datePurchased: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "not a valid date!"),
+  datePurchased: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'not a valid date!'),
   operation: z
     .string()
     .min(5)

@@ -1,7 +1,7 @@
-import { Post } from "@prisma/client";
-import Image from "next/image";
-import { Comments } from "./comments";
-import { useSession } from "next-auth/react";
+import { Post } from '@prisma/client';
+import Image from 'next/image';
+import { Comments } from './comments';
+import { useSession } from 'next-auth/react';
 
 //type for data som kommer inn i componenten
 interface ToolModalProps {

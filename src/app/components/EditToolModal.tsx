@@ -1,16 +1,16 @@
-import { useForm, SubmitHandler } from "react-hook-form";
-import { UploadButton } from "./upload.button";
-import { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import { useSession } from "next-auth/react";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { UploadButton } from './upload.button';
+import { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   verktoyEditSchema,
   verktoyEditSchemaType,
-} from "../api/verktoy/schema";
-import { useQueryClient } from "@tanstack/react-query";
-import { Post } from "@prisma/client";
-import { editPost } from "../services/verktoy.post.service";
+} from '../api/verktoy/schema';
+import { useQueryClient } from '@tanstack/react-query';
+import { Post } from '@prisma/client';
+import { editPost } from '../services/verktoy.post.service';
 
 // typer av det som kommer inn til funskjon
 interface EditToolModalProps {
@@ -49,18 +49,18 @@ export const EditToolModal = ({ verktoy, clickModal }: EditToolModalProps) => {
     if (!file) return onSubmit(e);
 
     // setting av data som blir sendt
-    let url = "/api/upload";
+    let url = '/api/upload';
     var formData = new FormData();
-    formData.append("file", file, file.name);
+    formData.append('file', file, file.name);
 
     // bilde blir sendt og lagert på pc
     let res = await axios.post(url, formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
     // fileId blir satt
-    setValue("fileId", res.data.imageDataDB.id);
+    setValue('fileId', res.data.imageDataDB.id);
 
     // original onsubmit kjør
     onSubmit(e);
@@ -71,7 +71,7 @@ export const EditToolModal = ({ verktoy, clickModal }: EditToolModalProps) => {
     let data = e;
     await editPost(data);
     clickModal();
-    queryClient.invalidateQueries({ queryKey: ["verktoy"] });
+    queryClient.invalidateQueries({ queryKey: ['verktoy'] });
   });
 
   return (
@@ -113,7 +113,7 @@ export const EditToolModal = ({ verktoy, clickModal }: EditToolModalProps) => {
                 </label>
                 <input
                   type="text"
-                  {...register("type")}
+                  {...register('type')}
                   placeholder={verktoy.type}
                   id="type"
                   className="rounded-md ring-1 ring-black shadow-md"
@@ -128,7 +128,7 @@ export const EditToolModal = ({ verktoy, clickModal }: EditToolModalProps) => {
                   type="text"
                   id="name"
                   placeholder={verktoy.name}
-                  {...register("name")}
+                  {...register('name')}
                   className="rounded-md ring-1 ring-black shadow-md"
                 />
                 {errors.name && (
@@ -139,7 +139,7 @@ export const EditToolModal = ({ verktoy, clickModal }: EditToolModalProps) => {
                 </label>
                 <input
                   type="date"
-                  {...register("datePurchased")}
+                  {...register('datePurchased')}
                   placeholder={verktoy.datePurchased.toString()}
                   id="datePurchased"
                   className="rounded-md ring-1 ring-black shadow-md"
@@ -152,7 +152,7 @@ export const EditToolModal = ({ verktoy, clickModal }: EditToolModalProps) => {
                 </label>
                 <input
                   type="text"
-                  {...register("operation")}
+                  {...register('operation')}
                   id="operation"
                   placeholder={verktoy.operation}
                   className="rounded-md ring-1 ring-black shadow-md"
@@ -165,7 +165,7 @@ export const EditToolModal = ({ verktoy, clickModal }: EditToolModalProps) => {
                 </label>
                 <input
                   type="text"
-                  {...register("storageSpace")}
+                  {...register('storageSpace')}
                   placeholder={verktoy.storageSpace}
                   id="storageSpace"
                   className="rounded-md ring-1 ring-black shadow-md"
@@ -178,7 +178,7 @@ export const EditToolModal = ({ verktoy, clickModal }: EditToolModalProps) => {
                 </label>
                 <input
                   type="text"
-                  {...register("extraEquipment")}
+                  {...register('extraEquipment')}
                   id="extraEquipment"
                   className="rounded-md ring-1 ring-black shadow-md"
                   placeholder={verktoy.extraEquipment}

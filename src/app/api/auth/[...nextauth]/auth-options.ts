@@ -1,11 +1,11 @@
-import { prisma } from "@/app/lib/prisma";
-import axios from "axios";
-import { compare } from "bcryptjs";
-import NextAuth from "next-auth";
-import type { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { prisma } from '@/app/lib/prisma';
+import axios from 'axios';
+import { compare } from 'bcryptjs';
+import NextAuth from 'next-auth';
+import type { NextAuthOptions } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
 
 export const authOptions: NextAuthOptions = {
   //definer at prisma blir brukt som adapter
@@ -16,20 +16,20 @@ export const authOptions: NextAuthOptions = {
 
   //endring av login side til å være selvlagd og ikke nextauth sinn innebygde
   pages: {
-    signIn: "/login",
+    signIn: '/login',
   },
 
   // definer at session skal bruke JWT token som strategy
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
 
   // definering av prover for login
   providers: [
     // google prover med client id og secret hentet inn fra .env fil
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID ?? "google client id",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "google client secret",
+      clientId: process.env.GOOGLE_CLIENT_ID ?? 'google client id',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? 'google client secret',
     }),
   ],
 

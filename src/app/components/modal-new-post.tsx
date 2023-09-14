@@ -1,15 +1,15 @@
-import { useForm, SubmitHandler } from "react-hook-form";
-import { UploadButton } from "./upload.button";
-import { useRef, useState } from "react";
-import axios from "axios";
-import { useSession } from "next-auth/react";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { UploadButton } from './upload.button';
+import { useRef, useState } from 'react';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   verktoyPostSchema,
   verktoyPostSchemaType,
-} from "../api/verktoy/schema";
-import { useQueryClient } from "@tanstack/react-query";
-import { createPost } from "../services/verktoy.post.service";
+} from '../api/verktoy/schema';
+import { useQueryClient } from '@tanstack/react-query';
+import { createPost } from '../services/verktoy.post.service';
 
 interface newPostModalProps {
   clickModal: () => void;
@@ -42,27 +42,27 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
   const onSubmit2 = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    if (!getValues("fileId"))
-      setError("fileId", {
-        type: "custom",
-        message: "upload a picture first",
+    if (!getValues('fileId'))
+      setError('fileId', {
+        type: 'custom',
+        message: 'upload a picture first',
       });
 
-    if (!file) return console.log("no file uploaded!");
+    if (!file) return console.log('no file uploaded!');
 
     // setting av data som blir sendt
-    let url = "/api/upload";
+    let url = '/api/upload';
     var formData = new FormData();
-    formData.append("file", file, file.name);
+    formData.append('file', file, file.name);
 
     // bilde blir sendt og lagert på pc
     let res = await axios.post(url, formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
     // fileId blir satt
-    setValue("fileId", res.data.imageDataDB.id);
+    setValue('fileId', res.data.imageDataDB.id);
 
     // original onsubmit kjør
     onSubmit(e);
@@ -74,7 +74,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
     let data = e;
     createPost(data);
     clickModal();
-    queryClient.invalidateQueries({ queryKey: ["verktoy"] });
+    queryClient.invalidateQueries({ queryKey: ['verktoy'] });
   });
 
   return (
@@ -118,7 +118,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                 </label>
                 <input
                   type="text"
-                  {...register("type")}
+                  {...register('type')}
                   placeholder="eks:  Borhammer"
                   id="type"
                   className="rounded-md ring-1 ring-black shadow-md"
@@ -133,7 +133,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                   type="text"
                   id="name"
                   placeholder="eks:  GBH 18V-26F"
-                  {...register("name")}
+                  {...register('name')}
                   className="rounded-md ring-1 ring-black shadow-md"
                 />
                 {errors.name && (
@@ -144,7 +144,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                 </label>
                 <input
                   type="date"
-                  {...register("datePurchased")}
+                  {...register('datePurchased')}
                   placeholder="eks: 23.05.2021"
                   id="datePurchased"
                   className="rounded-md ring-1 ring-black shadow-md"
@@ -157,7 +157,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                 </label>
                 <input
                   type="text"
-                  {...register("operation")}
+                  {...register('operation')}
                   id="operation"
                   placeholder="eks: Batteri 18V"
                   className="rounded-md ring-1 ring-black shadow-md"
@@ -170,7 +170,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                 </label>
                 <input
                   type="text"
-                  {...register("storageSpace")}
+                  {...register('storageSpace')}
                   placeholder="eks: Hylle 2"
                   id="storageSpace"
                   className="rounded-md ring-1 ring-black shadow-md"
@@ -183,7 +183,7 @@ export const NewPostModal = ({ clickModal }: newPostModalProps) => {
                 </label>
                 <input
                   type="text"
-                  {...register("extraEquipment")}
+                  {...register('extraEquipment')}
                   id="extraEquipment"
                   className="rounded-md ring-1 ring-black shadow-md"
                   placeholder="eks: Bor, batteri, Dybdeanlegg"

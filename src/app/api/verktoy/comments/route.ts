@@ -1,17 +1,17 @@
-import { getToken } from "next-auth/jwt";
-import { verktoyCommentSchema } from "./schema";
-import { prisma } from "@/app/lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
-import { Comment, User } from "@prisma/client";
-import { getServerSession } from "next-auth";
-import authOptions from "../../auth/[...nextauth]/auth-options";
+import { getToken } from 'next-auth/jwt';
+import { verktoyCommentSchema } from './schema';
+import { prisma } from '@/app/lib/prisma';
+import { NextRequest, NextResponse } from 'next/server';
+import { Comment, User } from '@prisma/client';
+import { getServerSession } from 'next-auth';
+import authOptions from '../../auth/[...nextauth]/auth-options';
 
 // type definering for get funksjon
 export type commentGET = {
   comment: Comment & {
     user: {
-      id: User["id"];
-      iname: User["name"];
+      id: User['id'];
+      iname: User['name'];
     };
   };
 };
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
   //setting av session data og feilhåndtering hvis session ikke finnes for å stoppe folk uten bruker å lage comments
   const session = await getServerSession(authOptions);
   if (!session?.user?.id)
-    return NextResponse.json({ error: "not authenticated" }, { status: 401 });
+    return NextResponse.json({ error: 'not authenticated' }, { status: 401 });
 
   // laging av comment på databasen
   const comment = await prisma.comment.create({
@@ -44,9 +44,9 @@ export async function GET(req: NextRequest) {
   // henting av data og håndtering hvis postId ikke finnes
   const url = new URL(req.nextUrl);
   const params = url.searchParams;
-  let postId = params.get("postId");
+  let postId = params.get('postId');
   if (!postId)
-    return NextResponse.json({ error: "no post ID" }, { status: 400 });
+    return NextResponse.json({ error: 'no post ID' }, { status: 400 });
 
   // hent comments for post med postID, og hent ut bruker data til den som lagde kommentaren
   const comment = await prisma.comment.findMany({
@@ -72,7 +72,7 @@ export async function DELETE(req: NextRequest) {
   //henting av data
   const url = new URL(req.nextUrl);
   const params = url.searchParams;
-  let commentId = params.get("commentId");
+  let commentId = params.get('commentId');
 
   // henting av whitelisted bolean variabel fra konto på server side
   const session = await getServerSession(authOptions);
@@ -80,11 +80,11 @@ export async function DELETE(req: NextRequest) {
 
   // sjekker om mann har lov å skette ellers så skjer det ikke
   if (whitelisted === !true) {
-    return NextResponse.json({ error: "not authorized" }, { status: 401 });
+    return NextResponse.json({ error: 'not authorized' }, { status: 401 });
   }
   // sjekker om comment id faktisk finnes
   if (!commentId)
-    return NextResponse.json({ error: "no commentId" }, { status: 400 });
+    return NextResponse.json({ error: 'no commentId' }, { status: 400 });
 
   // sletter kommentar med commentId
   const comment = await prisma.comment.deleteMany({

@@ -1,17 +1,17 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useSession } from "next-auth/react";
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
 import {
   verktoyCommentSchema,
   verktoyCommentSchemaType,
-} from "../api/verktoy/comments/schema";
-import { useMutation } from "@tanstack/react-query";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+} from '../api/verktoy/comments/schema';
+import { useMutation } from '@tanstack/react-query';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   createComment,
   deleteComment,
   getComments,
-} from "../services/verktoy.comment.service";
+} from '../services/verktoy.comment.service';
 
 // typer for det som kommer inn til comment component
 interface CommentsProps {
@@ -67,7 +67,7 @@ export const Comments = ({ postId }: CommentsProps) => {
               type="text"
               className="w-4/5 border border-gray-300 rounded-full m-2 p-2 text-black"
               placeholder="Kommentar"
-              {...register("content")}
+              {...register('content')}
             />
             {errors.content && (
               <span className="text-white block mt-2 bg-red-600 rounded-md p-2 ring-2 ring-red-700 ring-opacity-25">
@@ -89,7 +89,7 @@ export const Comments = ({ postId }: CommentsProps) => {
           var formatedDate = comment.createdAt
             .toString()
             .slice(0, 19)
-            .replace("T", " ");
+            .replace('T', ' ');
           console.log(comment.id);
           return (
             <div key={comment.id} className="border-t pt-4 mt-4">

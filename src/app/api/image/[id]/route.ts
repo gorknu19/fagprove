@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
-import fs from "fs";
-import { prisma } from "@/app/lib/prisma";
+import fs from 'fs';
+import { prisma } from '@/app/lib/prisma';
 
 // henting av bilde
 export const GET = async (
@@ -17,7 +17,7 @@ export const GET = async (
 
   // hvis bilde path ikke blir funnet returner error med "no image found"
   if (!image?.path)
-    return NextResponse.json({ error: "no image found" }, { status: 400 });
+    return NextResponse.json({ error: 'no image found' }, { status: 400 });
 
   // hvis bilde path blir funnet les bilde og send bildet til siden
   let stream = fs.createReadStream(image?.path);

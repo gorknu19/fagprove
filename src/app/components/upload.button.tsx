@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import axios from "axios";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import axios from 'axios';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 //typer for data som kommer inn i component
 interface UploadButtonProps {
@@ -28,7 +28,7 @@ export const UploadButton = ({ setFile, file, imageId }: UploadButtonProps) => {
   // når bilde blir opplaset så blir det satt til state
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target;
-    if (!files) return console.log("no file uploaded");
+    if (!files) return console.log('no file uploaded');
 
     console.log(files[0]);
 
@@ -38,7 +38,7 @@ export const UploadButton = ({ setFile, file, imageId }: UploadButtonProps) => {
   return (
     <div className="flex flex-col">
       <div className="flex flex-col">
-        <label htmlFor={"fileUpload"} className="cursor-pointer">
+        <label htmlFor={'fileUpload'} className="cursor-pointer">
           <div className="text-gray-300 bg-gray-700 hover:bg-gray-800 hover:text-white font-medium text-sm p-4 flex flex-col items-center gap-2  rounded-t-md  ">
             <span>Velg et bilde for å opplaste</span>
             <input
@@ -56,7 +56,7 @@ export const UploadButton = ({ setFile, file, imageId }: UploadButtonProps) => {
               width={500}
               src={preview}
               alt="verktøy"
-              key={"preview"}
+              key={'preview'}
             />
           )}
           {/* hvis imageID er satt og ingen preview så vises den istedet, dette er for redigering componenten */}
@@ -66,7 +66,7 @@ export const UploadButton = ({ setFile, file, imageId }: UploadButtonProps) => {
               width={500}
               src={`/api/image/${imageId}`}
               alt="verktøy"
-              key={"preview"}
+              key={'preview'}
             />
           )}
         </label>

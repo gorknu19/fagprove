@@ -1,11 +1,11 @@
-"use client";
-import { useSession } from "next-auth/react";
-import React, { useState } from "react";
-import { NewPostModal } from "@/app/components/modal-new-post";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useInView } from "react-intersection-observer";
-import { getPosts } from "./services/verktoy.post.service";
-import ToolCard from "./components/verktoy.card";
+'use client';
+import { useSession } from 'next-auth/react';
+import React, { useState } from 'react';
+import { NewPostModal } from '@/app/components/modal-new-post';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInView } from 'react-intersection-observer';
+import { getPosts } from './services/verktoy.post.service';
+import ToolCard from './components/verktoy.card';
 
 function Forum() {
   // ref og inview for å trigger henting av flere posts, session data og state for å vise modal for å lage post,
@@ -26,7 +26,7 @@ function Forum() {
     hasNextPage,
     hasPreviousPage,
   } = useInfiniteQuery({
-    queryKey: ["verktoy"],
+    queryKey: ['verktoy'],
     queryFn: ({ pageParam = 0 }) =>
       //posts blir hentet med størrelse av 5 som blir hentet hver gang
       getPosts({
@@ -82,10 +82,10 @@ function Forum() {
               ref={ref}
             >
               {isFetchingNextPage
-                ? "Henter flere..."
+                ? 'Henter flere...'
                 : hasNextPage
-                ? "Hent flere"
-                : "Ingen mer å hente"}
+                ? 'Hent flere'
+                : 'Ingen mer å hente'}
             </button>
           )}
         </div>

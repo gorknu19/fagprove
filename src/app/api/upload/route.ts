@@ -1,13 +1,13 @@
-import { writeFile } from "fs/promises";
-import { NextRequest, NextResponse } from "next/server";
-import { UUID, randomUUID } from "crypto";
-import { prisma } from "@/app/lib/prisma";
+import { writeFile } from 'fs/promises';
+import { NextRequest, NextResponse } from 'next/server';
+import { UUID, randomUUID } from 'crypto';
+import { prisma } from '@/app/lib/prisma';
 
 //opplasting av bilde
 export const POST = async (req: NextRequest) => {
   // data blir satt
   const data = await req.formData();
-  const file: File | null = data.get("file") as unknown as File;
+  const file: File | null = data.get('file') as unknown as File;
 
   //error hvis det ikke er fil
   if (!file) {
@@ -15,10 +15,10 @@ export const POST = async (req: NextRequest) => {
   }
 
   //sjekke om filen som er opplastet er bilde
-  const fileType = file["type"];
-  if (!fileType.startsWith("image")) {
+  const fileType = file['type'];
+  if (!fileType.startsWith('image')) {
     return NextResponse.json(
-      { error: "this is not an image file" },
+      { error: 'this is not an image file' },
       { status: 400 },
     );
   }
@@ -28,7 +28,7 @@ export const POST = async (req: NextRequest) => {
 
   //sjekk om filen er for stor
   if (bytes.byteLength > 10 * 1000000)
-    return NextResponse.json({ error: "File is too big" }, { status: 400 });
+    return NextResponse.json({ error: 'File is too big' }, { status: 400 });
 
   const buffer = Buffer.from(bytes);
 

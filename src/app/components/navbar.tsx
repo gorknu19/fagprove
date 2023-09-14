@@ -1,13 +1,13 @@
-"use client";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import Link from "next/link";
+'use client';
+import { useSession } from 'next-auth/react';
+import Image from 'next/image';
+import Link from 'next/link';
 import {
   LoginButton,
   LogoutButton,
   ProfileButton,
-} from "@/app/components/nextauth.buttons";
-import { useState } from "react";
+} from '@/app/components/nextauth.buttons';
+import { useState } from 'react';
 
 function Navbar() {
   //henting av session og  state blir satt
@@ -21,7 +21,7 @@ function Navbar() {
   return (
     <>
       <nav className={`bg-slate-900 text-white top-0`}>
-        <div className={"mx-auto px-2"}>
+        <div className={'mx-auto px-2'}>
           <div className={`relative flex h-16 items-center justify-between`}>
             <div className={`flex flex-1 items-center`}>
               <div className={`items-center mr-5`}></div>

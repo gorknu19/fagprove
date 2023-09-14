@@ -1,17 +1,17 @@
-import { Post, User } from "@prisma/client";
-import { NextRequest, NextResponse } from "next/server";
-import { verktoyEditSchema, verktoyPostSchema } from "./schema";
-import { getServerSession } from "next-auth";
-import authOptions from "../auth/[...nextauth]/auth-options";
-import { prisma } from "@/app/lib/prisma";
-import { getToken } from "next-auth/jwt";
+import { Post, User } from '@prisma/client';
+import { NextRequest, NextResponse } from 'next/server';
+import { verktoyEditSchema, verktoyPostSchema } from './schema';
+import { getServerSession } from 'next-auth';
+import authOptions from '../auth/[...nextauth]/auth-options';
+import { prisma } from '@/app/lib/prisma';
+import { getToken } from 'next-auth/jwt';
 
 // typer for henting av posts
 export type verktoyGET = {
   posts: (Post & {
     user: {
-      id: User["id"];
-      name: User["name"];
+      id: User['id'];
+      name: User['name'];
     };
   })[];
   postsLength: number;
@@ -30,7 +30,7 @@ export const POST = async (req: NextRequest) => {
 
   //sjekker om du har admin rettigheter til å lage posts
   if (whitelisted === !true) {
-    return NextResponse.json({ error: "not authorized" }, { status: 401 });
+    return NextResponse.json({ error: 'not authorized' }, { status: 401 });
   }
 
   // sjekker om data ikke kom forbi validering og om mann i det heletatt er logget inn
@@ -38,7 +38,7 @@ export const POST = async (req: NextRequest) => {
     return NextResponse.json({ error: validator.error }, { status: 400 });
   if (!session?.user?.id)
     return NextResponse.json(
-      { error: "ikke logget inn eller ikke rettigheter" },
+      { error: 'ikke logget inn eller ikke rettigheter' },
       { status: 401 },
     );
 
@@ -67,8 +67,8 @@ export async function GET(req: NextRequest) {
   // henting av data senndt fra bruker
   const url = new URL(req.nextUrl);
   const params = url.searchParams;
-  let pageSize = parseInt(params.get("pageSize") || "2");
-  let skip = parseInt(params.get("skip") || "0");
+  let pageSize = parseInt(params.get('pageSize') || '2');
+  let skip = parseInt(params.get('skip') || '0');
 
   // teller mengden posts
   const postsLength = await prisma.post.count();
@@ -78,7 +78,7 @@ export async function GET(req: NextRequest) {
     skip: skip,
     take: pageSize,
     orderBy: {
-      createdAt: "desc",
+      createdAt: 'desc',
     },
 
     include: {
@@ -109,17 +109,17 @@ export async function GET(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   const url = new URL(req.nextUrl);
   const params = url.searchParams;
-  let postId = params.get("postId");
+  let postId = params.get('postId');
 
   const session = await getServerSession(authOptions);
   const whitelisted = session?.user?.whitelisted;
 
   if (whitelisted === !true) {
-    return NextResponse.json({ error: "not authorized" }, { status: 401 });
+    return NextResponse.json({ error: 'not authorized' }, { status: 401 });
   }
 
   if (!postId)
-    return NextResponse.json({ error: "no postId" }, { status: 400 });
+    return NextResponse.json({ error: 'no postId' }, { status: 400 });
 
   const comment = await prisma.comment.deleteMany({
     where: {
@@ -143,7 +143,7 @@ export const PATCH = async (req: NextRequest) => {
 
   //sjekker whitelist
   if (whitelisted === !true) {
-    return NextResponse.json({ error: "ikke rettigheter" }, { status: 401 });
+    return NextResponse.json({ error: 'ikke rettigheter' }, { status: 401 });
   }
 
   // validerer om dataen er rett og passer
@@ -154,7 +154,7 @@ export const PATCH = async (req: NextRequest) => {
   // sjekker om mann er logget inn
   if (!session?.user?.id)
     return NextResponse.json(
-      { error: "ikke logget inn eller ikke rettigheter" },
+      { error: 'ikke logget inn eller ikke rettigheter' },
       { status: 401 },
     );
   // henter data fra valideringen

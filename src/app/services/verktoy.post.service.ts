@@ -1,7 +1,7 @@
-import axios from "axios";
-import { SerializedStateDates } from "@/app/types/generic";
-import { verktoyGET } from "../api/verktoy/route";
-import { Post } from "@prisma/client";
+import axios from 'axios';
+import { SerializedStateDates } from '@/app/types/generic';
+import { verktoyGET } from '../api/verktoy/route';
+import { Post } from '@prisma/client';
 
 //typer for å hente posts
 interface GetPostsParams {
@@ -26,7 +26,7 @@ interface EditPostsParams extends createPostsParams {
 }
 // api call til å hent posts
 export const getPosts = async ({ pageSize, skip }: GetPostsParams) => {
-  let res = await axios.get<SerializedStateDates<verktoyGET>>("/api/verktoy", {
+  let res = await axios.get<SerializedStateDates<verktoyGET>>('/api/verktoy', {
     params: {
       skip,
       pageSize,
@@ -38,7 +38,7 @@ export const getPosts = async ({ pageSize, skip }: GetPostsParams) => {
 
 //api call til å lage posts
 export const createPost = async (data: createPostsParams) => {
-  let res = await axios.post("/api/verktoy", data);
+  let res = await axios.post('/api/verktoy', data);
 
   return res.data;
 };
@@ -57,7 +57,7 @@ export const deletePost = async (postId: string) => {
 
 // api call til å edit posts
 export const editPost = async (data: EditPostsParams) => {
-  let res = await axios.patch("/api/verktoy", data);
+  let res = await axios.patch('/api/verktoy', data);
 
   return res.data;
 };
