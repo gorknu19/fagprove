@@ -1,0 +1,13 @@
+{
+    "prettier.trailingComma": "all",
+    "prettier.singleQuote": true,
+    "prettier.tabWidth": 2,
+    "workbench.colorTheme": "Dracula Soft",
+    "terminal.integrated.fontSize": 19,
+    "terminal.integrated.env.windows": {},
+    "files.eol": "\n",
+    "git.confirmSync": false,
+    "githubPullRequests.pullBranch": "never",
+    "githubPullRequests.fileListLayout": "tree",
+  
+}
