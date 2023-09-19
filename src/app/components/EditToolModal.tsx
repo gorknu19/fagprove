@@ -25,6 +25,7 @@ export const EditToolModal = ({ verktoy, clickModal }: EditToolModalProps) => {
   const queryClient = useQueryClient();
 
   //usefomr som blir brukt for formen som sender inn data til å lage comment, som har resolver fra zod som validerer alt før den i det heletatt sender de
+  
   const {
     register,
     handleSubmit,
